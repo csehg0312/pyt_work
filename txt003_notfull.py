@@ -31,7 +31,7 @@ def make_window(theme):
 
 
 def main():
-    window = make_window('LightGray1')
+    window = make_window('Reddit')
     while True:
         event, values = window.read()
         if event == 'Submit':
