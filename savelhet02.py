@@ -1,22 +1,29 @@
 import PySimpleGUI as psg
 import os
+import psutil
+battery = psutil.sensors_battery()
+plugged = battery.power_plugged
+percent = str(battery.percent)
+
+plugged = "Plugged In" if plugged else "Not Plugged In"
 
 working_directory = os.getcwd()
-psg.theme('Reddit')
+psg.theme('SystemDefault')
 
-layout = [[psg.Multiline(size=(120,35), tooltip='Ide irj', key='_multiline_')],
+layout = [[psg.Multiline(size=(120,35), tooltip=percent+' percent', key='_multiline_')],
           [psg.Text('File Name '), psg.Input(size=(80, 10), key='-NAME-'), psg.Input('', key='-VER-')],
           [psg.Text('A fajl neve',key = '_savefile_', visible=True), psg.Input(size=(80, 10), key='-FILE_PATH-'),
            psg.FileBrowse(initial_folder=working_directory, font=('Times New Roman', 12), file_types = [('TXT Files','*.txt')]), psg.Button('Submit', font=('Times New Roman',12))],
           [psg.Text('Saved', key='_saved_', visible=False)],
-          [psg.Button('SAVE', font=('Times New Roman', 12)), psg.Button('EXIT', font=('Times New Roman', 12)) ]
+          [psg.Button('SAVE', font=('Times New Roman', 12)), psg.Button('EXIT', font=('Times New Roman', 12)), psg.Text("", key='_BATTERY-NOW_', justification='right') ]
           ]
 
-window = psg.Window("Ablak", layout, size=(900,800), element_justification='l')
+window = psg.Window("Ablak", layout, size=(900,700), element_justification='l')
 multiline = psg.Multiline()
 
 while True:
     event, values = window.read()
+    window['_BATTERY-NOW_'].Update(percent)
     
     if event == 'Submit':
         thisFile = values['-FILE_PATH-']
