@@ -26,7 +26,7 @@ treedata = sg.TreeData()
 treedata.insert('', 0, 'C:\\', [], icon=folder_icon)
 
 layout = [
-    [sg.Tree(treedata, headings=[], col0_width=30, num_rows=20, show_expanded=True, enable_events=True, key='-TREE-')],
+    [sg.Tree(treedata, headings=[], col0_width=30, num_rows=20, show_expanded=True, enable_events=True, key='-TREE-'),sg.Tree(treedata, headings=[], col0_width=30, num_rows=20, show_expanded=True, enable_events=True, key='-TREE02-')],
     [sg.Text("",key='-folderrr-')],
     [sg.StatusBar("", size=(0, 1), key='-STATUS-')],
 ]

@@ -47,9 +47,10 @@ while True:
     if event == sg.WINDOW_CLOSED:
         break
     status.update('')
+    '''
     if event == '-TREE-SINGLE-CLICK-':
         print('Selected')
-        
+    '''
         
     if event == '-TREE-DOUBLE-CLICK-':
         #print('Double clicked...')
