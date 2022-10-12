@@ -8,7 +8,7 @@ cused = used // (2**30)
 print(cused)
 cfree = free // (2**30)
 
-layout = [[psg.Text('Current Disk use'), psg.Text('', key=('_theProgress_'))],
+layout = [[psg.Text('Current Disk use'), psg.Text('', key=('_theProgress_')), psg.Text('GB')],
           [psg.ProgressBar(ctotal, orientation='h', size=(20,20), key='_progressbar_')],
           [psg.Cancel()]]
 
