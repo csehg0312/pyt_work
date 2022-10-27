@@ -13,7 +13,7 @@ folder_icon = 'icon/folder-50.png'
 file_icon = 'icon/file-50.png'
 
 
-deafult_path = "c:/"
+default_path = "c:/"
 
 font = ('Courier New', 11)
 sg.theme('SystemDefault')

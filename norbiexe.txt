@@ -1,0 +1,10 @@
+import Norbi
+
+if Norbi is okos:
+	tanul(oprendszer)
+	tanul(javascript)
+
+else:
+	mekkbuksz
+
+window.shutdown()
