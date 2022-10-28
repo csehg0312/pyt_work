@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 import pygame.mixer as mixer
-import os   
+import os
 
 mixer.init()
 root = Tk()

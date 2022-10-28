@@ -9,15 +9,10 @@ percent = str(battery.percent)
 plugged = "Plugged In" if plugged else "Not Plugged In"
 
 
-"""
-    Demo - Basic window design pattern
-    * Creates window in a separate function for easy "restart"
-    * Saves theme as a user variable
-    * Puts main code into a main function so that multiprocessing works if you later convert to use
-    
-    Copyright 2020 PySimpleGUI.org
-"""
 
+#ERROR it is needed to be fixed, because when run and selected theme wanted to be changed
+#then it crashes
+#TODO Rewrite
 
 # ------------------- Create the window -------------------
 def make_window():
