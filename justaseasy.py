@@ -71,7 +71,7 @@ while True:
                 #print(kind)
                 #print(path)
                 #window['-folderrr-'].Update(path)
-                #print(file)
+                print(file)
                 #print("---")
                 treedata.insert(parent_key, key, str(file), [], icon=folder_icon if kind == DIR else file_icon)
                 node['children'].append(key)

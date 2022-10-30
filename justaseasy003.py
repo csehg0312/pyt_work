@@ -1,4 +1,5 @@
 from pathlib import Path
+import pathlib
 import PySimpleGUI as sg
 
 #nows = dt.now()
@@ -22,11 +23,14 @@ sg.set_options(font=font)
 DIR, FILE = True, False
 
 data = {0: {'kind':DIR, 'path':'', 'file':'C:\\', 'children':None}, }
+Fdata = {0: {'path':'', 'file':'C:\\'}, }
+phile_data = 'C://'
 treedata = sg.TreeData()
 treedata.insert('', 0, 'C:\\', [], icon=folder_icon)
 
 layout = [
-    [sg.Tree(treedata, headings=[], col0_width=30, num_rows=20, show_expanded=True, enable_events=True, key='-TREE01-'),sg.Tree(treedata, headings=[], col0_width=30, num_rows=20, show_expanded=True, enable_events=True, key='-TREE02-')],
+    [sg.Tree(treedata, headings=[], col0_width=30, num_rows=20, show_expanded=True, enable_events=True, key='-TREE01-'),
+     sg.Multiline(size=(35,20), enable_events=True, key='_multiline_')],
     [sg.Text("",key='-folderrr01-'),sg.Text("", key='-folderrr02-')],
     [sg.StatusBar("", size=(0, 1), key='-STATUS-')],
 ]
@@ -35,9 +39,6 @@ window = sg.Window("File Browser", layout, finalize=True, size=(1280,720))
 tree01 = window['-TREE01-']
 tree01.Widget.configure(show='tree')  # Hide header
 tree01.bind('<Double-1>', "DOUBLE-CLICK-")
-tree02 = window['-TREE02-']
-tree02.Widget.configure(show='tree')
-tree02.bind('<Double-1>', "DOUBLE-CLICK-")
 status = window['-STATUS-']
 
 
@@ -82,49 +83,44 @@ while True:
                 treedata.insert(parent_key, key, str(file), [], icon=folder_icon if kind == DIR else file_icon)
                 node['children'].append(key)
                 data[key] = {'kind':kind, 'path':path, 'file':file, 'children':None}
+                #print(file)
                 #print(data[key])
             tree01.update(values=treedata)
             window['-folderrr01-'].Update(path)
             #sg.Print(treedata)
             iid = tree01.KeyToID[parent_key]
             tree01.Widget.see(iid)
+        else:
+            #print('its a file')
+            window['_multiline_'].print('its a file')
+            phile_key = values['-TREE01-'][0]
+            #print(phile_key)
+            phile_node = data[phile_key]
+            #keys, Vvalues = zip(*phile_node.items())
             
-    if event == '-TREE02-DOUBLE-CLICK':
-        print("Double clicked")
-        parent_key = values['-TREE02-'][0]
-        #print(parent_key)
-        node = data[parent_key]
-        #window('-folderrr-').Update(values['node'])
-        #print(node)
-        if node['kind'] == DIR and node['children'] == None:
-            parent_path = Path(node['path']).joinpath(node['file'])
-            #print(parent_path)
+            keys = []
+            Vvalues = []
+            #items = phile_node.items()
             
-            try:
-                files = sorted(list(parent_path.iterdir()), key=lambda file:file.is_file())
-                #print(files)
-            except:
-                status.update("Access is denied")
-                continue
-            node['children'] = []
-            for item in files:
-                key = new_key()
-                #print(key)
-                kind, path, file = item.is_dir(), str(item.parent), item.name
-                #print(kind)
-                #print(path)
-                #window['-folderrr-'].Update(path)
-                #print(file)
-                #print("---")
-                treedata.insert(parent_key, key, str(file), [], icon=folder_icon if kind == DIR else file_icon)
-                node['children'].append(key)
-                data[key] = {'kind':kind, 'path':path, 'file':file, 'children':None}
-                #print(data[key])
-            tree02.update(values=treedata)
-            window['-folderrr02-'].Update(path)
-            #sg.Print(treedata)
-            iid = tree02.KeyToID[parent_key]
-            tree02.Widget.see(iid)
-        
+            #for item in items:
+             #   keys.append(item[0]), Vvalues.append(item[1])
+             
+            Fpath = '' 
+            for i in phile_node:
+                #print(i)
+                nkey = i
+                if nkey == 'path':
+                    print('its that')
+                    #print(phile_node[i])
+                    Fpath = phile_node[i]
+                    print(Fpath)
+                elif nkey == 'file':
+                    #print(phile_node[i])
+                    Fpath = Fpath + phile_node[i]
+                    print(Fpath)
+                #print(phile_node[i])
+            #window['_multiline_'].print("values : ", str(Vvalues))
+            #window['_multiline_'].print(phile_node)
+            #print(phile_node)
 
 window.close()
