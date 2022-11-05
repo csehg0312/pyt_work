@@ -1,6 +1,20 @@
 from pathlib import Path
 import pathlib
 import PySimpleGUI as sg
+import os
+import datetime
+
+class File:
+    def __init__(self, name, size, size_in, lastly_used):
+        self.name = name
+        self.size = size
+        self.size_in = size_in
+        self.lastly_used = lastly_used
+    
+    def __str__(self):
+        return f"{self.name} \nSize:{self.size} {self.size_in} \nLastly used:{self.lastly_used}"
+    
+
 
 #nows = dt.now()
 
@@ -30,7 +44,7 @@ treedata.insert('', 0, 'C:\\', [], icon=folder_icon)
 
 layout = [
     [sg.Tree(treedata, headings=[], col0_width=30, num_rows=20, show_expanded=True, enable_events=True, key='-TREE01-'),
-     sg.Multiline(size=(35,20), enable_events=True, key='_multiline_')],
+     sg.Multiline(size=(35,20), enable_events=True, key='_multiline_', do_not_clear=False)],
     [sg.Text("",key='-folderrr01-'),sg.Text("", key='-folderrr02-')],
     [sg.StatusBar("", size=(0, 1), key='-STATUS-')],
 ]
@@ -91,20 +105,13 @@ while True:
             iid = tree01.KeyToID[parent_key]
             tree01.Widget.see(iid)
         else:
-            #print('its a file')
-            window['_multiline_'].print('its a file')
             phile_key = values['-TREE01-'][0]
-            #print(phile_key)
             phile_node = data[phile_key]
-            #keys, Vvalues = zip(*phile_node.items())
             
             keys = []
             Vvalues = []
             #items = phile_node.items()
             
-            #for item in items:
-             #   keys.append(item[0]), Vvalues.append(item[1])
-             
             Fpath = '' 
             for i in phile_node:
                 #print(i)
@@ -116,11 +123,23 @@ while True:
                     print(Fpath)
                 elif nkey == 'file':
                     #print(phile_node[i])
-                    Fpath = Fpath + phile_node[i]
+                    Fname = phile_node[i]
+                    Fpath = Fpath + '/' + phile_node[i]
                     print(Fpath)
-                #print(phile_node[i])
-            #window['_multiline_'].print("values : ", str(Vvalues))
-            #window['_multiline_'].print(phile_node)
-            #print(phile_node)
+            fsize = os.path.getsize(Fpath)
+            fsize = round(fsize / 1024, 2)
+            #itssize = 'kB'
+            if fsize >= 1024:
+                fsize = round(fsize / 1024, 2)
+                itssize = 'MB'
+            else:
+                itssize = 'kB'
+        
+            finfo = os.stat(Fpath)
+            stats = os.stat(Fpath)
+            ftime = os.path.getmtime(Fpath)
+            unixToDatetime = datetime.datetime.fromtimestamp(ftime)
+            current_file = File(Fname, fsize, itssize, unixToDatetime)
+            window['_multiline_'].print(current_file)
 
 window.close()

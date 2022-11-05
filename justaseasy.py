@@ -68,11 +68,6 @@ while True:
                 key = new_key()
                 #print(key)
                 kind, path, file = item.is_dir(), str(item.parent), item.name
-                #print(kind)
-                #print(path)
-                #window['-folderrr-'].Update(path)
-                print(file)
-                #print("---")
                 treedata.insert(parent_key, key, str(file), [], icon=folder_icon if kind == DIR else file_icon)
                 node['children'].append(key)
                 data[key] = {'kind':kind, 'path':path, 'file':file, 'children':None}
