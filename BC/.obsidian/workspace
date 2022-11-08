@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Untitled.md",
+            "file": "Main.md",
             "mode": "source",
             "source": false
           }
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Untitled.md",
+                "file": "Main.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Untitled.md",
+                "file": "Main.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -117,7 +117,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Untitled.md"
+                "file": "Main.md"
               }
             }
           }
@@ -129,5 +129,11 @@
     "collapsed": true
   },
   "active": "2efa969814d26eb2",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "layout.md",
+    "helpers and functions.md",
+    "constants and values.md",
+    "classes.md",
+    "Main.md"
+  ]
 }

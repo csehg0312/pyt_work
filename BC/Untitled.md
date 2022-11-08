@@ -1,1 +1,0 @@
-Simpla ablak megnyitása
