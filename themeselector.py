@@ -13,7 +13,7 @@ import PySimpleGUI as sg
 # ------------------- Create the window -------------------
 def make_window():
     # Set theme based on previously saved
-    sg.theme(sg.user_settings_get_entry('theme', None))
+    sg.theme(sg.user_settings_get_entry('theme', 'SystemDefault'))
 
     # -----  Layout & Window Create  -----
     layout = [[sg.T('This is your layout')],

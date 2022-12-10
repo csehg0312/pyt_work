@@ -10,6 +10,7 @@ cfree = free // (2**30)
 
 layout = [[psg.Text('Current Disk use'), psg.Text('', key=('_theProgress_')), psg.Text('GB')],
           [psg.ProgressBar(ctotal, orientation='h', size=(20,20), key='_progressbar_')],
+          [psg.StatusBar('StatusBar', enable_events=True)],
           [psg.Cancel()]]
 
 window = psg.Window('ProgressMeter here:', layout)
@@ -22,6 +23,8 @@ while True:
     progress_bar.UpdateBar(cused)
     if event == 'Cancel' or event == psg.WIN_CLOSED:
         break
-        
+    if event == 'StatusBar':
+        print('Status')
+       
     
 window.close()

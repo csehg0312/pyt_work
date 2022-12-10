@@ -83,6 +83,9 @@ while True:
                 #print(files)
             except:
                 status.update("Access is denied")
+                os.path.expanduser(parent_path)
+                files = sorted(list(parent_path.iterdir()), key=lambda file:file.is_file())
+                print('made')
                 continue
             node['children'] = []
             for item in files:
