@@ -11,7 +11,7 @@ def getCpath(data:list, path:list):
     #return pathnext
             
 
-def itisafile(path=str):
+def itisafile(path:str):
     if os.path.isfile(path) == True:
         return True
     else:
