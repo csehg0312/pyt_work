@@ -16,8 +16,9 @@ parent_path = dd.path_splitter(path)
 print(parent_path)
 
 fejlec = ['Extension', 'Name', 'Lastly Used', 'Size']
+vals = []
 
-vals = dd.calling(path)
+#vals = dd.calling(path)
 
 infocenter = [[psg.Text('File:'), psg.Text('', enable_events=True, key='-FILENAME-')],
               [psg.Text('Size:'), psg.Text('', enable_events=True, key='-FILESIZE-')]
@@ -25,13 +26,14 @@ infocenter = [[psg.Text('File:'), psg.Text('', enable_events=True, key='-FILENAM
 
 
 layout = [[ psg.Push(), psg.Image('C:/Users/csehg/pytry/iconexit.png', enable_events=True, pad=0, key='-EXIT-')],
+          [psg.Push(), psg.Input('', enable_events=True, expand_x=True ,size=(2, 150),do_not_clear=True ,key='-IN-'),psg.Push()],
           [psg.Table(vals,
                      headings=fejlec,
                      size=(ts_x,ts_y),
                      key='_T01_',
                      auto_size_columns=True,
                      expand_x=False,
-                     enable_events=True, enable_click_events=True), psg.Frame('', infocenter)]
+                     enable_events=True, enable_click_events=True, tooltip='tool'), psg.Frame('', infocenter)]
           ]
 
 window = psg.Window(
@@ -44,33 +46,41 @@ while True:
     event, value = window.read()
     #print(event)
     
-    if event == ('_T01_','+CLICKED+',(int,0)):
-        print('clicked')
-    
+    for
+        
+    if event == '-IN-':
+        #print(value['-IN-'])
+        if dd.pth_verifier(value['-IN-']) == True:
+            print(value['-IN-'])
+        
     if event == '_T01_':
         kijelolt = [vals[row] for row in value[event]]
         print(kijelolt)
         #print(vals[value['_T01_'][0]])
-        window['-FILENAME-'].update(kijelolt[0][1])
-        window['-FILESIZE-'].update(kijelolt[0][3])
+        #window['-FILENAME-'].update(kijelolt[0][1])
+        #window['-FILESIZE-'].update(kijelolt[0][3])
         #print(dd.path_create(path, kijelolt[0][0]))
-        nextpt = dd.path_create(path, kijelolt[0][0])
-        print(nextpt)
+        fullfile = kijelolt[0][1] + kijelolt[0][0]
+        nextpt = dd.path_create(path, fullfile)
+        #window['_T01_'].update(kijelolt[0][1])
+        #print(nextpt)
         fl = tf.itisafile(nextpt)
         if fl == True:
             pass
         else:
             #valn = dd.calling(nextpt)
             #valn = ml.modify_list(vals, len(vals))
-            #print(str(valn))
+            print(str(valn))
             try:
                 #window['_T01_'].Update(valn)
-                #window['_T01_'].set_focus()
-                print('directory')
-                print(kijelolt[0][0])
+                window['_T01_'].set_focus()
+                #print('directory')
+                #print(kijelolt[0][0])
                 
             except IndexError:
                 print('List out of range', kijelolt[0][0])
+            else:
+                print('not possible')
             
     if event == ('_T01_', '+CLICKED+', (-1, 0)):
         print('Extension')
