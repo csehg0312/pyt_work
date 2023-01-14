@@ -4,6 +4,8 @@ from datetime import datetime
 import time_dependency as td
 path = 'C:/Users/csehg/Documents'
 
+file_list = ['.txt', '.doc', '.html', '.css', '.js', '.py']
+
 def calcsizev2(P:str, val):
     j = os.path.join(P,val)
     S = os.path.getsize(j)
@@ -86,7 +88,7 @@ def calling_from_lst(LsT:list, pth:str):
         else:
             sizes.append(" ")
             lastly_used.append(" ")
-            suffixes.append('directory')
+            suffixes.append('')
             
     num = list_verifier(LsT, sizes, lastly_used, suffixes)
         
@@ -101,6 +103,13 @@ def calling_from_lst(LsT:list, pth:str):
                 sor = []
             
         return oszlop
+    
+def del_calling(vls:list):
+    val = vls
+    for d in range(len(val)):
+        del val[d]
+    
+    return val
     
     
 def calling(path:str):
@@ -126,7 +135,7 @@ def calling(path:str):
         else:
             sizes.append(" ")
             lastly_used.append(" ")
-            suffixes.append('directory')
+            suffixes.append('')
             
     num = list_verifier(vals, sizes, lastly_used, suffixes)
     #print(num)

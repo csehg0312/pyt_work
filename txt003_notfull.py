@@ -21,7 +21,7 @@ def make_window(theme):
         [psg.Multiline(size=(120,25),tooltip='Write your Text here', key='_multiline_')],
         [psg.Text('File Name'),psg.Input(key='_openfile_'),psg.OptionMenu(values=['.txt','.pdf', '.dat','.sql', '.doc', '.py', '.html', '.js', '.css'],size=(4,8),default_value='.doc',key='ftype')],
         [psg.Text('A fajl neve',key = '_savefile_', visible=True), psg.Input(size=(80, 10), key='-FILE_PATH-'),
-         psg.FileBrowse(initial_folder=working_directory, font=('Times New Roman', 12), file_types = [('TXT Files','*.txt')]), psg.Button('Submit', font=('Times New Roman',12))],
+         psg.FileBrowse(initial_folder=working_directory, font=('Times New Roman', 12), file_types = [('All Files','*.*')]), psg.Button('Submit', font=('Times New Roman',12))],
         [psg.Text('Saved', key='_saved_', visible=False)],
         [psg.Button('SAVE', font=('Times New Roman',12)),psg.Button('CANCEL', font=('Times New Roman',12))],
         [psg.Text('Kerlek valassz egy temat: '), psg.Combo(psg.theme_list(), default_value=theme, enable_events=True, key='-THEMES-')],]
@@ -34,6 +34,7 @@ def main():
     window = make_window('Reddit')
     while True:
         event, values = window.read()
+        print(event)
         if event == 'Submit':
             thisFile = values['-FILE_PATH-']
             with open(thisFile, 'r') as file:

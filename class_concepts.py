@@ -4,24 +4,25 @@ import shutil
 
 class File:
     
-    def __init__(self,suffix, name, lst_use, size, ut, szolopath):
+    def __init__(self,suffix, name, lst_use, size, path, szolopath):
         self.suffix = suffix
         self.name = name
         self.lst_use = lst_use
         self.size = size
-		self.ut = ut
-		self.szulotrace = szulotrace
 		
-        
+  		self.path = path
+		
+  		self.szulotrace = szulotrace
+  
     def caldate(P:str, val):
     	j = os.path.join(P,val)
     	T = os.path.getctime(j)
-    
+     
     	CT = datetime.fromtimestamp(T)
     	CTV = DateCall.called(CT)
     	return CTV
-		
-	def caltype(P:str, val):
+ 
+ 	def caltype(P:str, val):
     	j = os.path.join(P,val)
     	_, E = os.path.splitext(j)
     	if E == "":
@@ -29,21 +30,25 @@ class File:
         #E = 'directory'
     	else:
         	return E
+     
 	def calname(P:str):
     	N, _ = os.path.splitext(P)
-    
+       
     	return N
     def getszulotrace(T:str)
         
+        return 0
 
 class Directory:
     
-    def __init__(self, ut, szulo):
-		self.ut = ut
-		self.szulo = szulo
+    def __init__(self, trace, szulo):
+        self.trace = trace
+        self.szulo = szulo
 		
-	def getatrace():
-	
+	def getatrace(F:str, szulo:str):
+     Pth = os.path.join(szulo, F)
+     return Pth
+     	
 	def getszulotrace():
 	
 	def getlistdir():
