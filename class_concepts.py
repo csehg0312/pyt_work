@@ -4,39 +4,35 @@ import shutil
 
 class File:
     
-    def __init__(self,suffix, name, lst_use, size, path, szolopath):
+    def __init__(self,suffix, name, lst_use, size, path, szulotrace):
         self.suffix = suffix
         self.name = name
         self.lst_use = lst_use
         self.size = size
-		
-  		self.path = path
-		
-  		self.szulotrace = szulotrace
+        self.path = path
+        self.szulotrace = szulotrace
   
     def caldate(P:str, val):
-    	j = os.path.join(P,val)
-    	T = os.path.getctime(j)
-     
-    	CT = datetime.fromtimestamp(T)
-    	CTV = DateCall.called(CT)
-    	return CTV
- 
- 	def caltype(P:str, val):
-    	j = os.path.join(P,val)
-    	_, E = os.path.splitext(j)
-    	if E == "":
-        	return 'directory'
+        j = os.path.join(P,val)
+        T = os.path.getctime(j)
+        CT = datetime.fromtimestamp(T)
+        CTV = DateCall.called(CT)
+        return CTV
+    
+    def caltype(P:str, val):
+        j = os.path.join(P,val)
+        _, E = os.path.splitext(j)
+        if E == "":
+            return ''
         #E = 'directory'
-    	else:
-        	return E
-     
-	def calname(P:str):
-    	N, _ = os.path.splitext(P)
-       
-    	return N
-    def getszulotrace(T:str)
+        else:
+            return E
         
+    def calname(P:str):
+        N, _ = os.path.splitext(P)
+        return N
+    
+    def getszulotrace(T:str):
         return 0
 
 class Directory:
@@ -44,24 +40,34 @@ class Directory:
     def __init__(self, trace, szulo):
         self.trace = trace
         self.szulo = szulo
-		
-	def getatrace(F:str, szulo:str):
-     Pth = os.path.join(szulo, F)
-     return Pth
-     	
-	def getszulotrace():
-	
-	def getlistdir():
-	
-	
+        
+    def getatrace(F:str, szulo:str):
+        Pth = os.path.join(szulo, F)
+        return Pth
+    
+    def getszulotrace():
+        return 0
+    def getlistdir():
+        return 0
 
+#akarjuk a teljes meret, hasznalt, szabad meretet, 
 class Drive:
-	
-	def __init__(self, teljes, hasznal, szabad, suff):
-		self.teljes = teljes
-		self.hasznal = hasznal
-		self.szabad = szabad
-		self.suff = suff
+    def __init__(self,DSZK:str):
+        self.DSZK = DSZK
+        
+        @classmethod
+        def getSize(cls,DSZK):
+            teljes, foglalt, szabad = shutil.disk_usage(DSZK)
+            teljes = self.teljes
+            
+            return teljes, foglalt, szabad
+        
+        self.full, self.used, self.free = getSize(DSZK)
+        
+        def calcFull(self,dsk:int):
+            return (dsk // (2**30))
+        
+
         
 class DateCall:
     
@@ -83,4 +89,7 @@ class PyTable:
 #         
 # 
 # def TextEdit:
-#     
+if __name__ == '__main__':
+    disk = 'C:'
+    adiszk = Drive(disk)
+    print(adiszk.free)

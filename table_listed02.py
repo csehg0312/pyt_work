@@ -1,12 +1,12 @@
 import os
 import sys
 import PySimpleGUI as psg
-import table_functions as tf
 import ddlistfunction as dd
 import controller as c
 import theme_variants as th
 import subprocess
 import vlc
+from event_handler import EventHandler
 
 #table x size:int
 ts_x = 750
@@ -45,6 +45,7 @@ infocenter = [[psg.Text('Current Path:'), psg.Text('', enable_events=True, key='
 
 #this is a 2dimensional list that is used in the PySimpleGUI Window element type:list
 layout = [[ psg.Push(), psg.Image('C:/Users/csehg/pytry/iconexit.png', enable_events=True, pad=0, key='-EXIT-')],
+          [psg.Spin(['Extension','Name','Lastly Used','Size'],initial_value='Name', enable_events=True, key='SORT')],
           [psg.Table(vals,
                      headings=fejlec,
                      size=(ts_x,ts_y),
@@ -55,7 +56,7 @@ layout = [[ psg.Push(), psg.Image('C:/Users/csehg/pytry/iconexit.png', enable_ev
                      enable_events=True,
                      right_click_menu=c.folder_right_click,
                      bind_return_key=True,
-                     enable_click_events=True, font=('Times New Roman', th.fon_size, '')),psg.VerticalSeparator(pad=None) , psg.Frame('', infocenter), psg.VerticalSeparator(pad=None)]
+                     font=('Times New Roman', th.fon_size, '')),psg.VerticalSeparator(pad=None) , psg.Frame('', infocenter), psg.VerticalSeparator(pad=None)]
           ]
 
 window = psg.Window(
@@ -68,7 +69,15 @@ window = psg.Window(
 
 while True:
     event, value = window.read()
-    #print(event)
+    e = EventHandler(event)
+    e.compare()
+    print(event)
+    
+    data = {'event':None, 'value':None}
+    data.update({'event':event})
+    data.update({'value':value})
+    print(data.items())
+    data.clear()
         
     if event == '_T01_':
         kijelolt = [vals[row] for row in value[event]]
@@ -110,7 +119,7 @@ while True:
                 except:
                     print('Not able to run')
                 
-            else:
+            if kijelolt[0][0] == '' and os.path.isdir(os.path.join(path, kijelolt[0][1] + kijelolt[0][0])):
                 window['STAT'].update('Everything fine')
                 direc = os.path.join(path, kijelolt[0][1])
                 #print(direc)
@@ -124,6 +133,8 @@ while True:
                 #print(vals)
                 window['_T01_'].Update(values=vals)
                 print(sys.getsizeof(vals))
+            else:
+                ...
         except (IndexError, PermissionError, FileNotFoundError, UnicodeDecodeError):
             window['STAT'].update('Everything fine')
             
@@ -156,7 +167,7 @@ while True:
             #print(values2)
             #print(path)
             #print(fl)
-            event2, _ = psg.Window('Write', [ [psg.Text('Do you want to write into the file?')],
+            event2, _ = psg.Window('Writer', [ [psg.Text('Do you want to write into the file?')],
                                              [psg.Button('OK'), psg.Button('No')] ]).read(close=True)
             if event2 == 'No':
                 event2 = ''
@@ -167,13 +178,15 @@ while True:
             else:
                 event2 = ''
                 print('write into the file...')
-                _, values2 = psg.Window('File Writer', [ [psg.Text('File Writer')],
+                _, values2 = psg.Window('File Writer', [ [psg.Titlebar('File Writer')],
+                                                         [psg.Text('File Writer')],
                                                          [psg.Multiline('', size=(75, 45), key='MLT')],
                                                          [psg.OK(), psg.Cancel()] ]).read(close=True)
                 txt = values2['MLT']
                 values2.clear()
                 with open(os.path.join(path, fl), 'w') as fM:
                     fM.write(txt)
+                fM.close()
             
         
     if event == 'NFD':
@@ -218,19 +231,19 @@ while True:
                 print('folder created to specified location...')
 
             
-    if event == ('_T01_', '+CLICKED+', (-1, 0)):
+    if event == 'SORT' and value['SORT'] == 'Extension':
         vals.sort(key=lambda x: x[0])
         window['_T01_'].update(values=vals)
         #print(vals)
-    if event == ('_T01_', '+CLICKED+', (-1, 1)):
+    if event == 'SORT' and value['SORT'] == 'Name':
         vals.sort(key=lambda x: x[1])
         window['_T01_'].update(values=vals)
         #print(vals)
-    if event == ('_T01_', '+CLICKED+', (-1, 2)):
+    if event == 'SORT' and value['SORT'] == 'Lastly Used':
         vals.sort(key=lambda x: x[2])
         window['_T01_'].update(values=vals)
         #print(vals)
-    if event == ('_T01_', '+CLICKED+', (-1, 3)):
+    if event == 'SORT' and value['SORT'] == 'Size':
         vals.sort(key=lambda x: x[3])
         window['_T01_'].update(values=vals)
         #print(vals)

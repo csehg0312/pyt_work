@@ -127,5 +127,6 @@ if __name__ == "__main__":
         location = (int(location[0]), int(location[1]))
     else:
         location = sg.user_settings_get_entry('-location-', (None, None))
+        print(location)
 
     main(location)

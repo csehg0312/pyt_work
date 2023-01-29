@@ -127,7 +127,7 @@ while True:
                 elif nkey == 'file':
                     #print(phile_node[i])
                     Fname = phile_node[i]
-                    Fpath = Fpath + '/' + phile_node[i]
+                    Fpath = os.path.join(Fpath, Fname)
                     print(Fpath)
             fsize = os.path.getsize(Fpath)
             fsize = round(fsize / 1024, 2)
