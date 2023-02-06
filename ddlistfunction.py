@@ -2,6 +2,8 @@ import os
 from collections import deque
 import table_functions as tf
 from datetime import datetime
+#from file_manager import filebase
+#from dataclass_file_manager import FajlBazis
 path = 'C:/Users/csehg/Documents'
 
 file_list = ['.txt', '.doc', '.html', '.css', '.js', '.py']
@@ -194,9 +196,14 @@ def path_create(pTh:str, nxtpth:str):
     
 
 if __name__ == '__main__':
-    print('Success')
-    pth = 'C:/Users/csehg/Documents/Arduino/libraries'
-    lst = os.listdir(pth)
-    print(calling_from_lst(lst, pth))
+#     print('Success')
+#     pth = 'C:/Users/csehg/Documents/Arduino/libraries'
+#     lst = os.listdir(pth)
+#     print(calling_from_lst(lst, pth))
     #caldate('ddlistfunction.py', 'C:/Users/csehg/pytry')
+    path = 'C:/Users/csehg/Documents'
+    data = FajlBazis(path)
+    dic = data.base
+    print(dic.items())
+    
             

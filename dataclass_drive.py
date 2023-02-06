@@ -19,7 +19,7 @@ class Drive:
         self.Foglalt: int = field(default_factory=calculateSize(self.FoglaltBit))
         self.Szabad: int = field(default_factory=calculateSize(self.SzabadBit))
     
-teljes, foglalt, szabad = shutil.disk_usage('F:')
+teljes, foglalt, szabad = shutil.disk_usage('C:')
     
 disk1 = Drive('F:', teljes, foglalt, szabad)
 elapsed = time.perf_counter()
