@@ -1,20 +1,18 @@
 from dataclasses import dataclass, field
 import os
 
-def listazd(szuloje:str, neve:str):
-    f = os.path.join(szuloje, neve)
-    lst = os.listdir(f)
+def listazd(szuloje:str):
+    lst = os.listdir(szuloje)
     return lst
 
 @dataclass
 class Folder:
     szulout:str
-    nev:str
     
     def __post_init__(self):
-        self.mappalista:list = field(default_factory=listazd(self.szulout, self.nev))
+        self.mappalista:list = field(default_factory=listazd(self.szulout))
         
 
-amappa = Folder('C:/Users/csehg', 'pytry')
-print(amappa.mappalista)
+# amappa = Folder('C:/Users/csehg', 'pytry')
+# print(amappa.mappalista.default_factory)
         

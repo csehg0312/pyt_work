@@ -1,10 +1,10 @@
 import os
 from collections import deque
-import table_functions as tf
-from datetime import datetime
+from time import strftime, gmtime
+from filefolder_manager import simple_data, fajl_kinyeres, fajl_meret
 #from file_manager import filebase
 #from dataclass_file_manager import FajlBazis
-path = 'C:/Users/csehg/Documents'
+#path = 'C:/Users/csehg/Documents'
 
 file_list = ['.txt', '.doc', '.html', '.css', '.js', '.py']
 text_file_list = ['.txt','.rtf','.log','.docx']
@@ -56,11 +56,9 @@ def caltype(P:str, val):
 
 def caldate(P:str, val):
     j = os.path.join(P,val)
-    T = os.path.getctime(j)
-    
-    CT = datetime.fromtimestamp(T).strftime('%Y/%m/%d %H:%M')
-    #CTV = td.called(CT)
-    return CT
+    T = os.path.getmtime(j)
+    CTV = strftime('%d %b %Y %H:%M', gmtime(T))
+    return f'{CTV}'
 
 def list_verifier(val:list, size:list, last:list, sff:list):
     en = len(val)
@@ -120,23 +118,23 @@ def del_calling(vls:list):
     return val
     
     
-def calling(path:str):
+def calling(path):
     try:
         vals = os.listdir(path)
         vals.sort()
         valslen = len(vals)
-    except:
-        return 0
-    sizes = deque([], maxlen=valslen)
-    lastly_used = deque([], maxlen=valslen)
-    suffixes = deque([], maxlen=valslen)
+    except (PermissionError, OSError) as e:
+        return e
+    sizes:deque = deque([], maxlen=valslen)
+    lastly_used:deque = deque([], maxlen=valslen)
+    suffixes:deque = deque([], maxlen=valslen)
     
-    sor = deque([], maxlen=4)
-    oszlop = []*valslen
+    sor:deque = deque([], maxlen=4)
+    oszlop:list = []*valslen
 
 
     for l in range(valslen):
-        if tf.itisafile(os.path.join(path, vals[l])) == True:
+        if os.path.isdir(os.path.join(path, vals[l])) == False or os.path.ismount(os.path.join(path, vals[l])) == False:
             sizes.append(calcsizev2(path, vals[l]))
             lastly_used.append(caldate(path, vals[l]))
             suffixes.append(caltype(path, vals[l]))
@@ -150,13 +148,12 @@ def calling(path:str):
 
     if num != 0:
         for i in range(num):
-            for j in range(1):
-                sor.append(str(suffixes[i]))
-                sor.append(calname(vals[i]))
-                sor.append(str(lastly_used[i]))
-                sor.append(str(sizes[i]))
-                oszlop.append(list(sor))
-                sor = []
+            sor.append(str(suffixes[i]))
+            sor.append(calname(vals[i]))
+            sor.append(str(lastly_used[i]))
+            sor.append(str(sizes[i]))
+            oszlop.append(list(sor))
+            sor = []
            
     real_list = list(oszlop)
             
@@ -202,8 +199,8 @@ if __name__ == '__main__':
 #     print(calling_from_lst(lst, pth))
     #caldate('ddlistfunction.py', 'C:/Users/csehg/pytry')
     path = 'C:/Users/csehg/Documents'
-    data = FajlBazis(path)
-    dic = data.base
-    print(dic.items())
+    data:deque
+    data = fajl_meret(path)
+    print(data)
     
             

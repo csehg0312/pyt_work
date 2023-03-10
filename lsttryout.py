@@ -46,7 +46,7 @@ def caldate(P:str, val):
     j = os.path.join(P,val)
     T = os.path.getctime(j)
     if exis(j) == True:
-       T = os.path.getctime(j)
+       T = os.path.getmtime(j)
        CT = datetime.fromtimestamp(T)
        CTV = td.called(CT)
        return f'{CTV}'
@@ -159,7 +159,7 @@ def calling(path:str):
     #print(str(oszlop))
     return oszlop
 
-if __name__ == '__main__':
-    path = 'C:/Users'
-    lisy = ces.
-    print(lisy)
+# if __name__ == '__main__':
+#     path = 'C:/Users'
+#     lisy = ces.
+#     print(lisy)

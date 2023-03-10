@@ -1,20 +1,22 @@
+import PySimpleGUI as psg
 import os
 import sys
-import PySimpleGUI as psg
-import table_functions as tf
+from dataclass_utvonal import Jelen_EleresiUt
 import ddlistfunction as dd
 import controller as c
 import theme_variants as th
-import subprocess
-import vlc
+
 
 #table x size:int
 ts_x = 750
 #table y size:int
 ts_y = 25
-r = False
-#path:string
-path = 'C:/Users/csehg'
+
+
+path: Jelen_EleresiUt
+path = Jelen_EleresiUt('C:/Users/csehg')
+path.Atiras()
+
 #getting path with os module is like this
 #print(os.path.expanduser('~'))
 
@@ -31,7 +33,7 @@ fejlec = ['Extension', 'Name', 'Lastly Used', 'Size']
 vals = []
 
 #from ddlistfunction the calling function is called that path returns a 2dimensional list type:list
-vals = list(dd.calling(path))
+vals = list(dd.calling(os.getcwd()))
 
 #this is a 2dimensional list that is used in the PySimpleGUI Frame element type:list
 infocenter = [[psg.Text('Current Path:'), psg.Text('', enable_events=True, key='PTH')],
@@ -53,6 +55,7 @@ layout = [[ psg.Push(), psg.Image('C:/Users/csehg/pytry/iconexit.png', enable_ev
                      auto_size_columns=True,
                      expand_x=False,
                      enable_events=True,
+                     selected_row_colors=('#00ffd7','#ffad00'),
                      right_click_menu=c.folder_right_click,
                      bind_return_key=True,
                      enable_click_events=True, font=('Times New Roman', th.fon_size, '')),psg.VerticalSeparator(pad=None) , psg.Frame('', infocenter), psg.VerticalSeparator(pad=None)]
@@ -69,6 +72,8 @@ window = psg.Window(
 while True:
     event, value = window.read()
     #print(event)
+    if event in (psg.WIN_CLOSED, '-EXIT-'):
+        break
         
     if event == '_T01_':
         kijelolt = [vals[row] for row in value[event]]
@@ -77,65 +82,46 @@ while True:
             
             if kijelolt[0][0] != '' and kijelolt[0][0] != '.exe' and kijelolt[0][0] != '.mp3':
                 fhl = kijelolt[0][1] + kijelolt[0][0]
-                flp = os.path.join(path, fhl)
-                with open(flp, 'r') as f:
+                flp = os.path.join(os.getcwd(), fhl)
+                with open(flp, 'r', encoding="utf-8") as f:
                     lines = f.read()
                     window['VIS'].print(lines)
                 f.close()
                 fhl = ''
                 flp = ''
                 
-            if kijelolt[0][0] == '.exe':
-                ft = kijelolt[0][1] + kijelolt[0][0]
-                print(ft)
-                try:
-                    p = subprocess.Popen(os.path.join(path, ft))
-                    return_code = p.wait()
-                    print(return_code)
-                    ft = ''
-                except:
-                    print('Not able to run')
-                    
-            if kijelolt[0][0] == '.mp3':
-                ft = kijelolt[0][1] + kijelolt[0][0]
-                print(ft)
-                try:
-                    if r == False:
-                        l = vlc.MediaPlayer(os.path.join(path, ft))
-                        l.play()
-                        r = True
-                    else:
-                        l.stop()
-                        r = False
-                except:
-                    print('Not able to run')
                 
             else:
                 window['STAT'].update('Everything fine')
-                direc = os.path.join(path, kijelolt[0][1])
+                direc = os.path.join(os.getcwd(), kijelolt[0][1])
+                path.Frissites(direc)
+                print(type(path))
                 #print(direc)
-                path = direc
-                window['PTH'].update(path)
+                window['PTH'].update(os.getcwd())
                 direc = ''
                 #print(path)
-                vals.clear()
                 #print(vals)
-                vals = dd.calling(path)
-                #print(vals)
-                window['_T01_'].Update(values=vals)
-                print(sys.getsizeof(vals))
-        except (IndexError, PermissionError, FileNotFoundError, UnicodeDecodeError):
-            window['STAT'].update('Everything fine')
+                errormanager:list
+                errormanager = dd.calling(os.getcwd())
+                if type(errormanager) not in (PermissionError, FileNotFoundError):
+                    vals.clear()
+                    vals = errormanager.copy()
+                    errormanager.clear()
+                    window['_T01_'].Update(values=vals)
+                    print(sys.getsizeof(vals))
+                if type(errormanager) in (PermissionError, FileNotFoundError):
+                    path.SzuloUtvonal()
+                    continue
+        except (IndexError, PermissionError, FileNotFoundError, UnicodeDecodeError) as e:
+            pass
             
     if event == 'Back':
-        #print(path)
-        path01, _ = os.path.split(path)
-        path = path01
-        window['PTH'].update(path)
-        path01 = ''
+        path.SzuloUtvonal()
+        window['PTH'].update(os.getcwd())
+        print(os.getcwd())
         try:
             vals.clear()
-            vals = dd.calling(path)
+            vals = dd.calling(os.getcwd())
             window['_T01_'].Update(values=vals)
         except IndexError:
             print(vals)
@@ -160,7 +146,7 @@ while True:
                                              [psg.Button('OK'), psg.Button('No')] ]).read(close=True)
             if event2 == 'No':
                 event2 = ''
-                with open(os.path.join(path, fl), 'w') as fM:
+                with open(str(os.path.join(os.getcwd(), fl)), 'w', encoding="utf-8") as fM:
                     pass
                 print('file saved without writing...')
                 
@@ -168,11 +154,11 @@ while True:
                 event2 = ''
                 print('write into the file...')
                 _, values2 = psg.Window('File Writer', [ [psg.Text('File Writer')],
-                                                         [psg.Multiline('', size=(75, 45), key='MLT')],
+                                                         [psg.Multiline('', size=(65, 40), key='MLT')],
                                                          [psg.OK(), psg.Cancel()] ]).read(close=True)
                 txt = values2['MLT']
                 values2.clear()
-                with open(os.path.join(path, fl), 'w') as fM:
+                with open(os.path.join(os.getcwd(), fl), 'w', encoding="utf-8") as fM:
                     fM.write(txt)
             
         
@@ -188,13 +174,13 @@ while True:
             pass
         else:
             values2.clear()
-            event2, _ = psg.Window('Write', [ [psg.Text(f'Do you want to move this folder into specified location? {path}')],
+            event2, _ = psg.Window('Write', [ [psg.Text(f'Do you want to move this folder into specified location? {os.getcwd()}')],
                                              [psg.Button('OK'), psg.Button('No')] ]).read(close=True)
             
             if event2 == 'No':
-                creAtP = os.path.join(path, fd)
+                creAtP = os.path.join(os.getcwd(), fd)
                 os.mkdir(creAtP)
-                psg.popup(f'New folder created at {path}', f'Path name is {creAtP}')
+                psg.popup(f'New folder created at {os.getcwd()}', f'Path name is {creAtP}')
                 creAtP = ''
                 fd = ''
                 event2 = ''
@@ -234,7 +220,5 @@ while True:
         vals.sort(key=lambda x: x[3])
         window['_T01_'].update(values=vals)
         #print(vals)
-    if event in (psg.WIN_CLOSED, '-EXIT-'):
-        break
     
 window.close()
