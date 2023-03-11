@@ -2,7 +2,7 @@ import PySimpleGUI as psg
 import os
 import sys
 from dataclass_utvonal import Jelen_EleresiUt
-import ddlistfunction as dd
+from filefolder_manager import create_twoD_list
 import controller as c
 import theme_variants as th
 
@@ -14,7 +14,8 @@ ts_y = 25
 
 
 path: Jelen_EleresiUt
-path = Jelen_EleresiUt('C:/Users/csehg')
+path = Jelen_EleresiUt(os.getcwd())
+print(os.getcwd())
 path.Atiras()
 
 #getting path with os module is like this
@@ -28,12 +29,13 @@ psg.theme('My New Theme')
 
 
 #list of the table header type:list
-fejlec = ['Extension', 'Name', 'Lastly Used', 'Size']
+fejlec = ['Name', 'Extension', 'Lastly Used', 'Size']
 #list of the table values and for later use type:list
 vals = []
 
 #from ddlistfunction the calling function is called that path returns a 2dimensional list type:list
-vals = list(dd.calling(os.getcwd()))
+os.chdir(os.path.expanduser("~csehg"))
+vals = list(create_twoD_list(os.getcwd()))
 
 #this is a 2dimensional list that is used in the PySimpleGUI Frame element type:list
 infocenter = [[psg.Text('Current Path:'), psg.Text('', enable_events=True, key='PTH')],
@@ -80,8 +82,8 @@ while True:
 
         try:
             
-            if kijelolt[0][0] != '' and kijelolt[0][0] != '.exe' and kijelolt[0][0] != '.mp3':
-                fhl = kijelolt[0][1] + kijelolt[0][0]
+            if kijelolt[0][1] != 'Mappa' and kijelolt[0][1] != '.exe' and kijelolt[0][1] != '.mp3':
+                fhl = kijelolt[0][0] + kijelolt[0][1]
                 flp = os.path.join(os.getcwd(), fhl)
                 with open(flp, 'r', encoding="utf-8") as f:
                     lines = f.read()
@@ -93,7 +95,7 @@ while True:
                 
             else:
                 window['STAT'].update('Everything fine')
-                direc = os.path.join(os.getcwd(), kijelolt[0][1])
+                direc = os.path.join(os.getcwd(), kijelolt[0][0])
                 path.Frissites(direc)
                 print(type(path))
                 #print(direc)
@@ -102,7 +104,7 @@ while True:
                 #print(path)
                 #print(vals)
                 errormanager:list
-                errormanager = dd.calling(os.getcwd())
+                errormanager = create_twoD_list(os.getcwd())
                 if type(errormanager) not in (PermissionError, FileNotFoundError):
                     vals.clear()
                     vals = errormanager.copy()
@@ -117,11 +119,12 @@ while True:
             
     if event == 'Back':
         path.SzuloUtvonal()
+        path.Atiras()
+        print(path.nagyszulo)
         window['PTH'].update(os.getcwd())
-        print(os.getcwd())
         try:
             vals.clear()
-            vals = dd.calling(os.getcwd())
+            vals = create_twoD_list(os.getcwd())
             window['_T01_'].Update(values=vals)
         except IndexError:
             print(vals)

@@ -1,7 +1,7 @@
 import os
 from collections import deque
 from time import strftime, gmtime
-from filefolder_manager import simple_data, fajl_kinyeres, fajl_meret
+#from filefolder_manager import simple_data, fajl_kinyeres, fajl_meret
 #from file_manager import filebase
 #from dataclass_file_manager import FajlBazis
 #path = 'C:/Users/csehg/Documents'

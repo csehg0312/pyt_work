@@ -6,8 +6,8 @@ class Jelen_EleresiUt:
     szulo:str 
     
     def Atiras(self):
-        if self.szulo != os.getcwd():
-            os.chdir(self.szulo)
+        if os.getcwd() != self.szulo:
+            self.szulo = os.getcwd()
     
     def SzuloUtvonal(self):
         self.nagyszulo, _ = os.path.split(self.szulo)
@@ -23,6 +23,14 @@ class Jelen_EleresiUt:
         os.chdir(self.szulo)
         
 if __name__ == '__main__':
-    ...
+    P:str
+    P = os.path.expanduser('~')
+    utv:Jelen_EleresiUt
+    utv = Jelen_EleresiUt(P)
+    utv.SzuloUtvonal()
+    print(os.getcwd())
+    utv.Atiras()
+    utv.SzuloUtvonal()
+    print(os.getcwd())
         
    
