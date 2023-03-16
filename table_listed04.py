@@ -1,6 +1,7 @@
 import PySimpleGUI as psg
 import os
 import sys
+from keyboard import is_pressed
 from dataclass_utvonal import Jelen_EleresiUt
 from filefolder_manager import create_twoD_list
 import controller as c
@@ -10,7 +11,7 @@ import theme_variants as th
 #table x size:int
 ts_x = 750
 #table y size:int
-ts_y = 30
+ts_y = 40
 
 
 path: Jelen_EleresiUt
@@ -38,7 +39,7 @@ os.chdir(os.path.expanduser("~csehg"))
 vals = list(create_twoD_list(os.getcwd()))
 
 #this is a 2dimensional list that is used in the PySimpleGUI Frame element type:list
-infocenter = [[psg.Text('Current Path:'), psg.Text('', enable_events=True, key='PTH')],
+infocenter = [[psg.Text('Current Path:'), psg.Text(os.getcwd(), enable_events=True, key='PTH')],
               [psg.Text('File:'), psg.Text('', enable_events=True, key='-FILENAME-')],
               [psg.Text('Size:'), psg.Text('', enable_events=True, key='-FILESIZE-')],
               [psg.Button('Back', key='Back'), psg.Button('New File', key='NF'), psg.Button('New Folder', key='NFD')],
@@ -93,7 +94,7 @@ while True:
                 flp = ''
                 
                 
-            else:
+            if kijelolt[0][1] == 'Mappa' and is_pressed('enter'):
                 window['STAT'].update('Everything fine')
                 direc = os.path.join(os.getcwd(), kijelolt[0][0])
                 path.Frissites(direc)

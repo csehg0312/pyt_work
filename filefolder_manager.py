@@ -1,4 +1,5 @@
 import os
+import asyncio
 from collections import deque
 from dataclass_file import File
 from dataclass_folder import Folder
@@ -62,7 +63,7 @@ from dataclass_folder import Folder
 #     print(filebase.items())
 #
 
-def simple_data(ut:str):
+def simple_data(ut):
     try:
         filebase:dict
         filebase = {'Path':str, 'Parent':str, "Folders":deque([]), "Files":deque([])}
