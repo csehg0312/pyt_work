@@ -4,8 +4,8 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-struct Harcos {
-	//char nev[6];
+class Harcos {
+	public:
 	int hp;
 	int dmg;
 };
