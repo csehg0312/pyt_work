@@ -13,7 +13,7 @@ folder_icon = 'icon/folder-50.png'
 file_icon = 'icon/file-50.png'
 
 
-default_path = "c:/"
+default_path = "e:/"
 
 font = ('Courier New', 11)
 sg.theme('SystemDefault')
@@ -21,9 +21,9 @@ sg.set_options(font=font)
 
 DIR, FILE = True, False
 
-data = {0: {'kind':DIR, 'path':'', 'file':'C:\\', 'children':None}, }
+data = {0: {'kind':DIR, 'path':'', 'file':'E:\\', 'children':None}, }
 treedata = sg.TreeData()
-treedata.insert('', 0, 'C:\\', [], icon=folder_icon)
+treedata.insert('', 0, 'E:\\', [], icon=folder_icon)
 
 layout = [
     [sg.Tree(treedata, headings=[], col0_width=30, num_rows=20, show_expanded=True, enable_events=True, key='-TREE-')],
